@@ -16,7 +16,7 @@
         <label for="eventDate">イベント名</label>
         <input type="date" id="eventDate">
     </div>
-    <button onclick="addEvent()">予定を追加</button>
+    <button onclick="handleAuthClick()">予定を追加</button>
     <script>
         let CLIENT_ID = "573390269704-hssmbesn2le1f0kgrrj6n3994v0mqu7h.apps.googleusercontent.com";
         let API_KEY = "AIzaSyAIvyAw4wtsAeZmD1942j5zqLE2Nsy3HyI";
@@ -34,8 +34,16 @@
                 discoveryDocs:DISCOVERY_DOCS,
                 scope:SCOPES
             }).then(()=>{
-                gapi.auth2.getAuthInstance().signIn();
+                console.log('GAPI client loaded for API');
+            },(error) => {
+                console.error('Error loading GAPI client for API',error)
             });
+        }
+
+        function handleAuthClick(){
+            gapi.auth2.getAuthInstance().signIn().then(()=>{
+                addEvent();
+            })
         }
 
         function addEvent(){
@@ -66,7 +74,7 @@
             })
         }
 
-        handleClientLoad();
+        document.addEventListener("DOMContentLoaded",handleClientLoad);
 
     </script>
 </body>
